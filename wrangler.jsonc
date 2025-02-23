@@ -2,13 +2,8 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "cloudflare-api-mcp",
 	"main": "src/index.ts",
-	"compatibility_date": "2025-02-22"
-	// "compatibility_flags": [
-	//   "nodejs_compat"
-	// ],
-	// "vars": {
-	//   "MY_VAR": "my-variable"
-	// },
+	"compatibility_date": "2025-02-22",
+	"compatibility_flags": ["nodejs_compat"],
 	// "kv_namespaces": [
 	//   {
 	//     "binding": "MY_KV_NAMESPACE",
@@ -31,8 +26,8 @@
 	// "ai": {
 	//   "binding": "AI"
 	// },
-	// "observability": {
-	//   "enabled": true,
-	//   "head_sampling_rate": 1
-	// }
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	}
 }

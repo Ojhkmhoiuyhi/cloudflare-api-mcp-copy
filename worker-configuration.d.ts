@@ -2,4 +2,6 @@
 
 interface Env {
 	SHARED_SECRET: string
+	CLOUDFLARE_API_KEY: string
+	CLOUDFLARE_API_EMAIL: string
 }
