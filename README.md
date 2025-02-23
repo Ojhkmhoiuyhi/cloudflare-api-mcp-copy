@@ -25,10 +25,11 @@ Add it to Cursor by pasting the MCP server command that was copied to your clipb
 
 ## Local Development
 
-Add your Cloudflare API token to the `.dev.vars` file:
+Add your Cloudflare API key and email to the `.dev.vars` file:
 
 ```bash
-CLOUDFLARE_API_TOKEN=<your-cloudflare-api-token>
+CLOUDFLARE_API_KEY=<your-cloudflare-api-key>
+CLOUDFLARE_API_EMAIL=<your-cloudflare-api-email>
 ```
 
 Run the development server:
@@ -72,7 +73,7 @@ The server currently provides tools for:
 - Managing DNS records
 - Purging cache
 - Listing zones
-- More coming soon...
+- More coming soon. Specifically, Workers, R2, KV, Queues, and Hyperdrive.
 
 You can see all the tools in the `src/index.ts` file. The functions are in `src/cloudflare/`.
 
