@@ -38,6 +38,16 @@ Run the development server:
 bun dev
 ```
 
+## Deploying
+
+Deploy the worker to Cloudflare:
+
+```bash
+bun run deploy
+```
+
+Reload your Cursor window to see the new tools.
+
 ## How to Create New MCP Tools
 
 To create new MCP tools, add methods to the `MyWorker` class in `src/index.ts`. Each function will automatically become an MCP tool that your agent can use.
