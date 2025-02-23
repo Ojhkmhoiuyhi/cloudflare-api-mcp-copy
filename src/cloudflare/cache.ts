@@ -11,5 +11,12 @@ export async function purgeEverything(env: Env, zoneId: string) {
 		purge_everything: true
 	})
 
-	return response
+	return {
+		content: [
+			{
+				type: "text",
+				text: JSON.stringify(response, null, 2)
+			}
+		]
+	}
 }

@@ -25,7 +25,14 @@ export async function createDNSRecord(
 		proxied
 	})
 
-	return response
+	return {
+		content: [
+			{
+				type: "text",
+				text: JSON.stringify(response, null, 2)
+			}
+		]
+	}
 }
 
 export async function deleteDNSRecord(
@@ -42,7 +49,14 @@ export async function deleteDNSRecord(
 		zone_id: zoneId
 	})
 
-	return response
+	return {
+		content: [
+			{
+				type: "text",
+				text: JSON.stringify(response, null, 2)
+			}
+		]
+	}
 }
 
 export async function editDNSRecord(
@@ -68,5 +82,32 @@ export async function editDNSRecord(
 		proxied
 	})
 
-	return response
+	return {
+		content: [
+			{
+				type: "text",
+				text: JSON.stringify(response, null, 2)
+			}
+		]
+	}
+}
+
+export async function listDNSRecords(env: Env, zoneId: string) {
+	const client = new Cloudflare({
+		apiKey: env.CLOUDFLARE_API_KEY,
+		apiEmail: env.CLOUDFLARE_API_EMAIL
+	})
+
+	const response = await client.dns.records.list({
+		zone_id: zoneId
+	})
+
+	return {
+		content: [
+			{
+				type: "text",
+				text: JSON.stringify(response, null, 2)
+			}
+		]
+	}
 }

@@ -4,7 +4,8 @@ import { purgeEverything } from "./cloudflare/cache"
 import {
 	createDNSRecord,
 	deleteDNSRecord,
-	editDNSRecord
+	editDNSRecord,
+	listDNSRecords
 } from "./cloudflare/dns"
 import { listZones } from "./cloudflare/zones"
 import type { DNSRecordType } from "./types"
@@ -105,8 +106,17 @@ export default class MyWorker extends WorkerEntrypoint<Env> {
 	}
 
 	/**
+	 * List all DNS records for a zone.
+	 * @param zoneId {string} The ID of the zone to list records for.
+	 * @return {Promise<any>} List of DNS records.
+	 */
+	async listDNSRecords(zoneId: string) {
+		return await listDNSRecords(this.env, zoneId)
+	}
+
+	/**
 	 * @ignore
-	 **/
+	 */
 	async fetch(request: Request): Promise<Response> {
 		return new ProxyToSelf(this).fetch(request)
 	}
