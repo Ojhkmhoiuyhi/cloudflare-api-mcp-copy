@@ -14,7 +14,7 @@ Run the automated setup script to clone the worker and deploy it to your Cloudfl
 bun create mcp cloudflare-api-mcp --clone https://github.com/amxv/cloudflare-api-mcp
 ```
 
-Upload your Cloudflare API token to your worker secrets:
+Upload your Cloudflare API key and email to your worker secrets:
 
 ```bash
 wrangler secret put CLOUDFLARE_API_KEY
