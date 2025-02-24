@@ -78,6 +78,6 @@ See [src/index.ts](src/index.ts) for the current list of tools.
 
 - [Model Control Protocol Documentation](https://modelcontextprotocol.io)
 - [create-mcp Documentation](https://github.com/zueai/create-mcp)
-- [workers-mcp](https://github.com/zueai/workers-mcp)
+- [workers-mcp](https://github.com/cloudflare/workers-mcp)
 - [Cloudflare Workers documentation](https://developers.cloudflare.com/workers/)
 - [Cloudflare API Documentation](https://developers.cloudflare.com/api/)
