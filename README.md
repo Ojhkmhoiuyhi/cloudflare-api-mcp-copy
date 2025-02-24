@@ -6,22 +6,24 @@ This MCP server allows agents (such as Cursor) to interface with the [Cloudflare
 
 It's still under development, I will be adding more tools as I find myself needing them.
 
-## Getting Started
+## Installation
 
-Run the clone script to clone the worker and deploy it to your Cloudflare account:
+1. Run the automated install script to clone this MCP server and deploy it to your Cloudflare account:
 
 ```bash
 bun create mcp --clone https://github.com/amxv/cloudflare-api-mcp
 ```
 
-Upload your Cloudflare API key and email to your worker secrets:
+2. Open `Cursor Settings -> MCP -> Add new MCP server` and paste the command that was copied to your clipboard.
+
+3. Upload your Cloudflare API key and email to your worker secrets:
 
 ```bash
 wrangler secret put CLOUDFLARE_API_KEY
 wrangler secret put CLOUDFLARE_API_EMAIL
 ```
 
-Add it to Cursor by pasting the MCP server command that was copied to your clipboard during setup.
+4. Add it to Cursor by pasting the MCP server command that was copied to your clipboard during setup.
 
 ## Local Development
 
@@ -32,21 +34,15 @@ CLOUDFLARE_API_KEY=<your-cloudflare-api-key>
 CLOUDFLARE_API_EMAIL=<your-cloudflare-api-email>
 ```
 
-Run the development server:
-
-```bash
-bun dev
-```
-
 ## Deploying
 
-Deploy the worker to Cloudflare:
+1. Run the deploy script:
 
 ```bash
 bun run deploy
 ```
 
-Reload your Cursor window to see the new tools.
+2. Reload your Cursor window to see the new tools.
 
 ## How to Create New MCP Tools
 
@@ -78,14 +74,7 @@ The JSDoc comments are important:
 
 ## Available Tools
 
-The server currently provides tools for:
-
-- Managing DNS records
-- Purging cache
-- Listing zones
-- More coming soon. Specifically, Workers, R2, KV, Queues, and Hyperdrive.
-
-You can see all the tools in the `src/index.ts` file. The functions are in `src/cloudflare/`.
+All the tools in [src/index.ts](src/index.ts). The functions are in [src/cloudflare/](src/cloudflare/).
 
 ## Learn More
 
