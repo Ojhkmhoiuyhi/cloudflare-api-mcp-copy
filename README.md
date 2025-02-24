@@ -1,14 +1,14 @@
 # cloudflare-api-mcp
 
-A lightweight Model Control Protocol (MCP) server deployed on Cloudflare Workers that interfaces with the [Cloudflare REST API](https://developers.cloudflare.com/api/).
+This is a lightweight Model Control Protocol (MCP) server bootstrapped with [create-mcp](https://github.com/zueai/create-mcp) and deployed on Cloudflare Workers.
 
-Bootstrapped using [create-mcp](https://github.com/zueai/create-mcp) CLI.
+This MCP server allows agents (such as Cursor) to interface with the [Cloudflare REST API](https://developers.cloudflare.com/api/).
 
 It's still under development, I will be adding more tools as I find myself needing them.
 
 ## Getting Started
 
-Run the automated setup script to clone the worker and deploy it to your Cloudflare account:
+Run the clone script to clone the worker and deploy it to your Cloudflare account:
 
 ```bash
 bun create mcp --clone https://github.com/amxv/cloudflare-api-mcp
