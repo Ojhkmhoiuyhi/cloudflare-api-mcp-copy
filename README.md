@@ -72,11 +72,12 @@ The JSDoc comments are important:
 
 ## Available Tools
 
-All the tools in [src/index.ts](src/index.ts). The functions are in [src/cloudflare/](src/cloudflare/).
+See [src/index.ts](src/index.ts) for the current list of tools.
 
 ## Learn More
 
 - [Model Control Protocol Documentation](https://modelcontextprotocol.io)
-- [Cloudflare API Documentation](https://developers.cloudflare.com/api/)
 - [create-mcp Documentation](https://github.com/zueai/create-mcp)
 - [workers-mcp](https://github.com/zueai/workers-mcp)
+- [Cloudflare Workers documentation](https://developers.cloudflare.com/workers/)
+- [Cloudflare API Documentation](https://developers.cloudflare.com/api/)
