@@ -23,8 +23,6 @@ wrangler secret put CLOUDFLARE_API_KEY
 wrangler secret put CLOUDFLARE_API_EMAIL
 ```
 
-4. Add it to Cursor by pasting the MCP server command that was copied to your clipboard during setup.
-
 ## Local Development
 
 Add your Cloudflare API key and email to the `.dev.vars` file:
