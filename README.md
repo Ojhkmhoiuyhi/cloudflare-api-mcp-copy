@@ -19,8 +19,8 @@ bun create mcp --clone https://github.com/zueai/cloudflare-api-mcp
 3. Upload your Cloudflare API key and email to your worker secrets:
 
 ```bash
-wrangler secret put CLOUDFLARE_API_KEY
-wrangler secret put CLOUDFLARE_API_EMAIL
+bunx wrangler secret put CLOUDFLARE_API_KEY
+bunx wrangler secret put CLOUDFLARE_API_EMAIL
 ```
 
 ## Local Development
