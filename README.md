@@ -1,6 +1,8 @@
 # cloudflare-api-mcp
 
-A lightweight Model Control Protocol (MCP) server deployed on Cloudflare Workers that interfaces with the [Cloudflare REST API](https://developers.cloudflare.com/api/). Bootstrapped with [create-mcp](https://github.com/zueai/create-mcp) CLI.
+A lightweight Model Control Protocol (MCP) server deployed on Cloudflare Workers that interfaces with the [Cloudflare REST API](https://developers.cloudflare.com/api/).
+
+Bootstrapped using [create-mcp](https://github.com/zueai/create-mcp) CLI.
 
 It's still under development, I will be adding more tools as I find myself needing them.
 
