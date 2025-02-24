@@ -12,15 +12,6 @@ import type { DNSRecordType } from "./types"
 
 export default class MyWorker extends WorkerEntrypoint<Env> {
 	/**
-	 * A warm, friendly greeting from your new Workers MCP server.
-	 * @param name {string} the name of the person we are greeting.
-	 * @return {string} the contents of our greeting.
-	 */
-	sayHello(name: string) {
-		return `Hello from an MCP Worker, ${name}!`
-	}
-
-	/**
 	 * List all Cloudflare zones for the account.
 	 * @return {Promise<any>} List of zones.
 	 */
