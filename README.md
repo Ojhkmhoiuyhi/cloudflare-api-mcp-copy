@@ -11,7 +11,7 @@ It's still under development, I will be adding more tools as I find myself needi
 1. Run the automated install script to clone this MCP server and deploy it to your Cloudflare account:
 
 ```bash
-bun create mcp --clone https://github.com/amxv/cloudflare-api-mcp
+bun create mcp --clone https://github.com/zueai/cloudflare-api-mcp
 ```
 
 2. Open `Cursor Settings -> MCP -> Add new MCP server` and paste the command that was copied to your clipboard.
