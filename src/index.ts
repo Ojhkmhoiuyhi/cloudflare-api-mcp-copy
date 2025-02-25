@@ -35,6 +35,14 @@ import {
 	listQueues,
 	pullMessages
 } from "./cloudflare/queues"
+import {
+	createBucket,
+	deleteBucketCORS,
+	getBucket,
+	getBucketCORS,
+	listBuckets,
+	putBucketCORS
+} from "./cloudflare/r2"
 import { listZones } from "./cloudflare/zones"
 import type { DNSRecordType } from "./types"
 
@@ -611,5 +619,78 @@ export default class MyWorker extends WorkerEntrypoint<Env> {
 			namespaceId,
 			parsedKeyValues
 		)
+	}
+
+	/**
+	 * Create a new R2 bucket.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param name {string} The name for the new bucket.
+	 * @return {Promise<any>} The created bucket.
+	 */
+	async createR2Bucket(accountId: string, name: string) {
+		return await createBucket(this.env, accountId, name)
+	}
+
+	/**
+	 * Get a specific R2 bucket.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param bucketName {string} The name of the bucket to retrieve.
+	 * @return {Promise<any>} The bucket details.
+	 */
+	async getR2Bucket(accountId: string, bucketName: string) {
+		return await getBucket(this.env, accountId, bucketName)
+	}
+
+	/**
+	 * List all R2 buckets for an account.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @return {Promise<any>} List of buckets.
+	 */
+	async listR2Buckets(accountId: string) {
+		return await listBuckets(this.env, accountId)
+	}
+
+	/**
+	 * Delete CORS configuration for an R2 bucket.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param bucketName {string} The name of the bucket.
+	 * @return {Promise<any>} Response from the delete operation.
+	 */
+	async deleteR2BucketCORS(accountId: string, bucketName: string) {
+		return await deleteBucketCORS(this.env, accountId, bucketName)
+	}
+
+	/**
+	 * Get CORS configuration for an R2 bucket.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param bucketName {string} The name of the bucket.
+	 * @return {Promise<any>} The CORS configuration.
+	 */
+	async getR2BucketCORS(accountId: string, bucketName: string) {
+		return await getBucketCORS(this.env, accountId, bucketName)
+	}
+
+	/**
+	 * Update CORS configuration for an R2 bucket.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param bucketName {string} The name of the bucket.
+	 * @param corsRules {string} JSON string array of CORS rules. Format: [{allowedOrigins: ["example.com"], allowedMethods: ["GET"], allowedHeaders: ["Content-Type"], exposeHeaders: ["Content-Length"], maxAge: 86400}]
+	 * @return {Promise<any>} Response from the update operation.
+	 */
+	async updateR2BucketCORS(
+		accountId: string,
+		bucketName: string,
+		corsRules: string
+	) {
+		// Parse the JSON string to get the array of CORS rules
+		const parsedRules = JSON.parse(corsRules) as Array<{
+			allowedOrigins: string[]
+			allowedMethods?: Array<"GET" | "PUT" | "POST" | "DELETE" | "HEAD">
+			allowedHeaders?: string[]
+			exposeHeaders?: string[]
+			maxAge?: number
+		}>
+
+		return await putBucketCORS(this.env, accountId, bucketName, parsedRules)
 	}
 }

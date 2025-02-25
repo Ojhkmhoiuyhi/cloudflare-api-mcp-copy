@@ -128,7 +128,6 @@ export async function getNamespace(
 	}
 }
 
-//TODO: fix
 export async function bulkDeleteKeys(
 	env: Env,
 	accountId: string,
@@ -155,7 +154,6 @@ export async function bulkDeleteKeys(
 	}
 }
 
-//TODO: fix
 export async function bulkUpdateKeys(
 	env: Env,
 	accountId: string,
