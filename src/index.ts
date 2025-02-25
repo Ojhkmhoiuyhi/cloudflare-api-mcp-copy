@@ -15,6 +15,8 @@ import {
 	listHyperdriveConfigs
 } from "./cloudflare/hyperdrive"
 import {
+	bulkDeleteKeys,
+	bulkUpdateKeys,
 	createNamespace,
 	deleteNamespace,
 	deleteValue,
@@ -555,6 +557,59 @@ export default class MyWorker extends WorkerEntrypoint<Env> {
 			queueId,
 			batchSize,
 			visibilityTimeoutMs
+		)
+	}
+
+	/**
+	 * Bulk delete keys from a KV namespace.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param namespaceId {string} The ID of the namespace.
+	 * @param keys {string} JSON string array of key names to delete. Format: ["key1", "key2", "key3"]
+	 * @return {Promise<any>} Response from the bulk delete operation.
+	 */
+	async bulkDeleteKVKeys(
+		accountId: string,
+		namespaceId: string,
+		keys: string
+	) {
+		// Parse the JSON string to get the array of keys
+		const parsedKeys = JSON.parse(keys) as string[]
+
+		return await bulkDeleteKeys(
+			this.env,
+			accountId,
+			namespaceId,
+			parsedKeys
+		)
+	}
+
+	/**
+	 * Bulk update key-value pairs in a KV namespace.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param namespaceId {string} The ID of the namespace.
+	 * @param keyValues {string} JSON string array of key-value objects. Format: [{key: "string", value: "string", expiration?: number, expiration_ttl?: number, base64?: boolean}]
+	 * @return {Promise<any>} Response from the bulk update operation.
+	 */
+	async bulkUpdateKVKeys(
+		accountId: string,
+		namespaceId: string,
+		keyValues: string
+	) {
+		// Parse the JSON string to get the array of key-value objects
+		const parsedKeyValues = JSON.parse(keyValues) as Array<{
+			key: string
+			value: string
+			expiration?: number
+			expiration_ttl?: number
+			base64?: boolean
+			metadata?: Record<string, unknown>
+		}>
+
+		return await bulkUpdateKeys(
+			this.env,
+			accountId,
+			namespaceId,
+			parsedKeyValues
 		)
 	}
 }
