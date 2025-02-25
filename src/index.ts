@@ -43,6 +43,23 @@ import {
 	listBuckets,
 	putBucketCORS
 } from "./cloudflare/r2"
+import {
+	getWorkerSchedules,
+	updateWorkerSchedules
+} from "./cloudflare/worker-cron"
+import {
+	deleteDomain,
+	getDomain,
+	listDomains,
+	updateDomain
+} from "./cloudflare/workers-domains"
+import {
+	getWorkflow,
+	getWorkflowInstance,
+	listWorkflowInstances,
+	listWorkflows,
+	updateWorkflowInstanceStatus
+} from "./cloudflare/workflows"
 import { listZones } from "./cloudflare/zones"
 import type { DNSRecordType } from "./types"
 
@@ -692,5 +709,210 @@ export default class MyWorker extends WorkerEntrypoint<Env> {
 		}>
 
 		return await putBucketCORS(this.env, accountId, bucketName, parsedRules)
+	}
+
+	/**
+	 * Delete a Worker domain.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param domainId {string} The ID of the domain to delete.
+	 * @return {Promise<any>} Response from the delete operation.
+	 */
+	async deleteWorkerDomain(accountId: string, domainId: string) {
+		return await deleteDomain(this.env, accountId, domainId)
+	}
+
+	/**
+	 * Get a Worker domain.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param domainId {string} The ID of the domain to retrieve.
+	 * @return {Promise<any>} The domain details.
+	 */
+	async getWorkerDomain(accountId: string, domainId: string) {
+		return await getDomain(this.env, accountId, domainId)
+	}
+
+	/**
+	 * List all Worker domains for an account.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param environment {string} Optional worker environment to filter by.
+	 * @param hostname {string} Optional hostname to filter by.
+	 * @param service {string} Optional worker service to filter by.
+	 * @param zoneId {string} Optional zone ID to filter by.
+	 * @param zoneName {string} Optional zone name to filter by.
+	 * @return {Promise<any>} List of domains.
+	 */
+	async listWorkerDomains(
+		accountId: string,
+		environment?: string,
+		hostname?: string,
+		service?: string,
+		zoneId?: string,
+		zoneName?: string
+	) {
+		return await listDomains(
+			this.env,
+			accountId,
+			environment,
+			hostname,
+			service,
+			zoneId,
+			zoneName
+		)
+	}
+
+	/**
+	 * Attach a Worker to a zone and hostname.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param environment {string} Worker environment to associate with the zone and hostname.
+	 * @param hostname {string} Hostname of the Worker Domain.
+	 * @param service {string} Worker service to associate with the zone and hostname.
+	 * @param zoneId {string} ID of the zone.
+	 * @return {Promise<any>} The updated domain.
+	 */
+	async updateWorkerDomain(
+		accountId: string,
+		environment: string,
+		hostname: string,
+		service: string,
+		zoneId: string
+	) {
+		return await updateDomain(
+			this.env,
+			accountId,
+			environment,
+			hostname,
+			service,
+			zoneId
+		)
+	}
+
+	/**
+	 * Get Cron Triggers for a Worker.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param scriptName {string} The name of the Worker script.
+	 * @return {Promise<any>} The Worker's cron schedules.
+	 */
+	async getWorkerCronTriggers(accountId: string, scriptName: string) {
+		return await getWorkerSchedules(this.env, accountId, scriptName)
+	}
+
+	/**
+	 * Update Cron Triggers for a Worker.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param scriptName {string} The name of the Worker script.
+	 * @param schedules {string} JSON string array of cron schedules. Format: [{"cron": "* * * * *"}]
+	 * @return {Promise<any>} The updated cron schedules.
+	 */
+	async updateWorkerCronTriggers(
+		accountId: string,
+		scriptName: string,
+		schedules: string
+	) {
+		// Parse the JSON string to get the array of schedules
+		const parsedSchedules = JSON.parse(schedules) as Array<{ cron: string }>
+
+		return await updateWorkerSchedules(
+			this.env,
+			accountId,
+			scriptName,
+			parsedSchedules
+		)
+	}
+
+	/**
+	 * Get details about a workflow.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param workflowName {string} The name of the workflow.
+	 * @return {Promise<any>} The workflow details.
+	 */
+	async getWorkflow(accountId: string, workflowName: string) {
+		return await getWorkflow(this.env, accountId, workflowName)
+	}
+
+	/**
+	 * List all workflows for an account.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @return {Promise<any>} List of workflows.
+	 */
+	async listWorkflows(accountId: string) {
+		return await listWorkflows(this.env, accountId)
+	}
+
+	/**
+	 * Get details about a workflow instance including logs and status.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param workflowName {string} The name of the workflow.
+	 * @param instanceId {string} The ID of the workflow instance.
+	 * @return {Promise<any>} The workflow instance details.
+	 */
+	async getWorkflowInstance(
+		accountId: string,
+		workflowName: string,
+		instanceId: string
+	) {
+		return await getWorkflowInstance(
+			this.env,
+			accountId,
+			workflowName,
+			instanceId
+		)
+	}
+
+	/**
+	 * List all instances of a workflow.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param workflowName {string} The name of the workflow.
+	 * @param dateStart {string} Optional start date in ISO 8601 format (UTC).
+	 * @param dateEnd {string} Optional end date in ISO 8601 format (UTC).
+	 * @param status {string} Optional status to filter by (queued, running, paused, errored, terminated, complete, waitingForPause, waiting, unknown).
+	 * @return {Promise<any>} List of workflow instances.
+	 */
+	async listWorkflowInstances(
+		accountId: string,
+		workflowName: string,
+		dateStart?: string,
+		dateEnd?: string,
+		status?:
+			| "queued"
+			| "running"
+			| "paused"
+			| "errored"
+			| "terminated"
+			| "complete"
+			| "waitingForPause"
+			| "waiting"
+			| "unknown"
+	) {
+		return await listWorkflowInstances(
+			this.env,
+			accountId,
+			workflowName,
+			dateStart,
+			dateEnd,
+			status
+		)
+	}
+
+	/**
+	 * Change the status of a workflow instance.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param workflowName {string} The name of the workflow.
+	 * @param instanceId {string} The ID of the workflow instance.
+	 * @param status {string} The new status (resume, pause, or terminate).
+	 * @return {Promise<any>} The updated workflow instance status.
+	 */
+	async updateWorkflowInstanceStatus(
+		accountId: string,
+		workflowName: string,
+		instanceId: string,
+		status: "resume" | "pause" | "terminate"
+	) {
+		return await updateWorkflowInstanceStatus(
+			this.env,
+			accountId,
+			workflowName,
+			instanceId,
+			status
+		)
 	}
 }
