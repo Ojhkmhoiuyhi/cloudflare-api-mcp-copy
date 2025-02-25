@@ -26,6 +26,13 @@ import {
 	updateNamespace,
 	updateValue
 } from "./cloudflare/kv"
+import {
+	acknowledgeMessages,
+	createQueue,
+	getQueue,
+	listQueues,
+	pullMessages
+} from "./cloudflare/queues"
 import { listZones } from "./cloudflare/zones"
 import type { DNSRecordType } from "./types"
 
@@ -465,5 +472,89 @@ export default class MyWorker extends WorkerEntrypoint<Env> {
 	 */
 	async getKVValue(accountId: string, namespaceId: string, keyName: string) {
 		return await getValue(this.env, accountId, namespaceId, keyName)
+	}
+
+	/**
+	 * Create a new queue.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param queueName {string} Name for the new queue.
+	 * @return {Promise<any>} The created queue.
+	 */
+	async createQueue(accountId: string, queueName: string) {
+		return await createQueue(this.env, accountId, queueName)
+	}
+
+	/**
+	 * Get details about a specific queue.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param queueId {string} The ID of the queue to retrieve.
+	 * @return {Promise<any>} The queue details.
+	 */
+	async getQueue(accountId: string, queueId: string) {
+		return await getQueue(this.env, accountId, queueId)
+	}
+
+	/**
+	 * List all queues for an account.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @return {Promise<any>} List of queues.
+	 */
+	async listQueues(accountId: string) {
+		return await listQueues(this.env, accountId)
+	}
+
+	/**
+	 * Acknowledge messages from a queue.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param queueId {string} The ID of the queue.
+	 * @param acks {string} JSON string of message lease IDs to acknowledge. Format: [{lease_id: "string"}]
+	 * @param retries {string} Optional JSON string of message lease IDs to retry with optional delay. Format: [{lease_id: "string", delay_seconds?: number}]
+	 * @return {Promise<any>} Response from the acknowledge operation.
+	 */
+	async acknowledgeQueueMessages(
+		accountId: string,
+		queueId: string,
+		acks: string,
+		retries?: string
+	) {
+		// Parse the JSON strings to get the actual objects
+		const parsedAcks = JSON.parse(acks) as Array<{ lease_id: string }>
+		const parsedRetries = retries
+			? (JSON.parse(retries) as Array<{
+					lease_id: string
+					delay_seconds?: number
+				}>)
+			: undefined
+
+		return await acknowledgeMessages(
+			this.env,
+			accountId,
+			queueId,
+			parsedAcks,
+			parsedRetries
+		)
+	}
+
+	/**
+	 * Pull a batch of messages from a queue.
+	 * @param accountId {string} The Cloudflare account ID.
+	 * @param queueId {string} The ID of the queue.
+	 * @param batchSize {number} Optional maximum number of messages to include in the batch.
+	 * @param visibilityTimeoutMs {number} Optional number of milliseconds that messages are exclusively leased.
+	 * @return {Promise<any>} The pulled messages.
+	 */
+	async pullQueueMessages(
+		accountId: string,
+		queueId: string,
+		batchSize?: number,
+		visibilityTimeoutMs?: number
+	) {
+		return await pullMessages(
+			this.env,
+			accountId,
+			queueId,
+			batchSize,
+			visibilityTimeoutMs
+		)
 	}
 }

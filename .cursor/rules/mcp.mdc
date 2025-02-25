@@ -35,7 +35,7 @@ sayHello(name: string) {
 ```
 
 - The JSDoc comment's first line is the tool's description.
-- The `@param` tags are the tool's parameters, with their types and descriptions.
+- The `@param` tags are the tool's parameters, with their types and descriptions. Make sure the type is a simple primitive type like string, boolean, number etc. Don't use arrays or objects here.
 - The `@return` tag is the tool's return value, with its type.
 
 To add a new tool, just write a new function to the `MyWorker` class, following the example above. Make sure to add the JSDoc comment in the exact format shown above with the correct types so that the compiler parses it correctly.
