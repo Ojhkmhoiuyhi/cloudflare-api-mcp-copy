@@ -6,6 +6,10 @@ This MCP server allows agents (such as Cursor) to interface with the [Cloudflare
 
 It's still under development, I will be adding more tools as I find myself needing them.
 
+## Available Tools
+
+See [src/index.ts](src/index.ts) for the current list of tools. Every method in the class is an MCP tool.
+
 ## Installation
 
 1. Run the automated install script to clone this MCP server and deploy it to your Cloudflare account:
@@ -69,10 +73,6 @@ The JSDoc comments are important:
 - First line becomes the tool's description
 - `@param` tags define the tool's parameters with types and descriptions
 - `@return` tag specifies the return value and type
-
-## Available Tools
-
-See [src/index.ts](src/index.ts) for the current list of tools.
 
 ## Learn More
 
