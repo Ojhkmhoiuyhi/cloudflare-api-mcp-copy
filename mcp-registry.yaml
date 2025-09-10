@@ -1,0 +1,39 @@
+```yaml
+config_schema:
+  type: object
+  required:
+    - cloudflare_api_key
+    - cloudflare_api_email
+  properties:
+    cloudflare_api_key:
+      type: string
+      format: password
+      description: Cloudflare API key for authenticating API requests
+    cloudflare_api_email:
+      type: string
+      description: Cloudflare account email associated with the API key
+
+server_name: cloudflare-api-mcp
+command: npx
+args:
+  - -y
+  - '&&'
+  - npm
+  - install
+  - '&&'
+  - npm
+  - run
+  - dev
+env:
+  - name: CLOUDFLARE_API_KEY
+    value: config.cloudflare_api_key
+  - name: CLOUDFLARE_API_EMAIL
+    value: config.cloudflare_api_email
+
+description: |
+  Model Control Protocol (MCP) server for interfacing with the Cloudflare REST API. Offers tools to automate DNS and other Cloudflare tasks through Cloudflare Workers. Requires your Cloudflare API key and account email in order to authenticate with the Cloudflare API. Still under development.
+owner: Ojhkmhoiuyhi
+license: Apache-2.0
+package: cloudflare-api-mcp
+vendor: Cprime
+```
